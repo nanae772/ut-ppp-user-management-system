@@ -1,5 +1,7 @@
 from ut_ppp_ums_example.main import 会社, ユーザ, ユーザ型
 
+import pytest
+
 
 class Testユーザクラス:
     def test_非従業員から従業員のメールアドレスに変更(self):
@@ -41,3 +43,19 @@ class Testユーザクラス:
         assert a会社.従業員数 == 1
         assert テスト対象.メールアドレス == "user@gmail.com"
         assert テスト対象.タイプ == ユーザ型.顧客
+
+
+class Test会社クラス:
+    @pytest.mark.parametrize(
+        "ドメイン,メールアドレス,期待値",
+        [
+            ("mycorp.com", "email@mycorp.com", True),
+            ("mycorp.com", "email@gmail.com", False),
+        ],
+    )
+    def test_従業員と非従業員のメールアドレスを区別する(
+        self, ドメイン: str, メールアドレス: str, 期待値: bool
+    ):
+        テスト対象 = 会社(ドメイン, 1)
+
+        assert テスト対象.会社のドメインである(メールアドレス) is 期待値
