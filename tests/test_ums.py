@@ -1,4 +1,4 @@
-from ut_ppp_ums_example.main import 会社, ユーザ, ユーザ型
+from ut_ppp_ums_example.main import 会社, ユーザ, ユーザ型, メールアドレス変更イベント
 
 import pytest
 
@@ -13,6 +13,9 @@ class Testユーザクラス:
         assert a会社.従業員数 == 2
         assert テスト対象.メールアドレス == "new@mycorp.com"
         assert テスト対象.タイプ == ユーザ型.従業員
+        assert テスト対象.メールアドレス変更イベントリスト[
+            0
+        ] == メールアドレス変更イベント(1, "new@mycorp.com")
 
     def test_従業員から非従業員のメールアドレスに変更(self):
         a会社 = 会社("mycorp.com", 1)
@@ -23,6 +26,9 @@ class Testユーザクラス:
         assert a会社.従業員数 == 0
         assert テスト対象.メールアドレス == "new@gmail.com"
         assert テスト対象.タイプ == ユーザ型.顧客
+        assert テスト対象.メールアドレス変更イベントリスト[
+            0
+        ] == メールアドレス変更イベント(1, "new@gmail.com")
 
     def test_ユーザのタイプを変えずにメールアドレスを変更(self):
         a会社 = 会社("mycorp.com", 1)
@@ -43,6 +49,7 @@ class Testユーザクラス:
         assert a会社.従業員数 == 1
         assert テスト対象.メールアドレス == "user@gmail.com"
         assert テスト対象.タイプ == ユーザ型.顧客
+        assert テスト対象.メールアドレス変更イベントリスト == []
 
 
 class Test会社クラス:
